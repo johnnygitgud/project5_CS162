@@ -18,13 +18,12 @@ for i in range(100): #This range will dictate how long the list will be. It will
     empty_list.append(rand_range) #append the values to the empty list
     new_random_list = empty_list # reassign the empty list to a variable that makes sense.
 
-print(new_random_list)#Test print random list in terminal
-
 #Create a labels
 #user_label will prompt the user for an input.
 user_label = tk.Label(root, text="Enter an integer and see if its in our randomized list")
 user_label.pack(pady=0)
 
+# Label to show the user that their number is in the list. Label will become visible after they enter a number
 list_label = tk.Label(root, text ="")
 list_label.pack()
 
@@ -32,40 +31,46 @@ list_label.pack()
 textbox = tk.Entry(root)
 textbox.pack(pady=10)
 
-# this loop is to test that an element is in the random list
-# for i in new_random_list:
-# 	if(i == 17):
-# 		print("Element Exists")
+# Create a canvas to draw the colored boxes
+canvas = tk.Canvas(root, width=600, height=100)
+canvas.pack(pady=20)
 
-# This label for the list needs to appear after the button is clicked. This function will take the new list add it as text to a separate label
-def display_list():
+# Initialize rectangle IDs
+rectangles = []
+
+# This function will search through the randomized list and check if the user input is in the list.
+def find_num_inlist():
     user_input = int(textbox.get())
-    print(f"User Input: {user_input}")
-    print(f"new_random_list: {new_random_list}")
+    print(f"User Input: {user_input}")#Test prints for the terminal
+    print(f"new_random_list: {new_random_list}")#Test prints for the terminal
+    
+    #Clear canvas
+    canvas.delete("all")
+
+    # Create and iterate through list and highlight rectangles.
+    for index, value in enumerate(new_random_list):
+        x1 = 1 + index * 5  # Adjust these values to position the rectangles
+        x2 = x1 + 5
+        y1 = 50
+        y2 = 100
+        # color = "yellow"
+        if value == user_input:
+            color = "green"
+        else:
+            color = "red"
+        canvas.create_rectangle(x1, y1, x2, y2, fill=color)
+        rectangles.append(color)
     
     if user_input in new_random_list:
         list_label.config(text=f"Your number {user_input} is in the list")
     else:
         list_label.config(text=f"Your number {user_input} is not in the list")
 
-            
-    
-    # if:
-    #     list_label = tk.Label(root, text = "This number is not in the list")
-    #     list_label.pack()
-
 
 # Create buttons
-# button1 will use the display_list function and show the new random list on a  label below the user label
-button1 = tk.Button(root, text="Display List", command=display_list)
+# button1 will execute the find_num_inlist function
+button1 = tk.Button(root, text="Display List", command=find_num_inlist)
 button1.pack(pady=30)
-
-######MISSING CODE#######
-## I NEED A TEXT BOX FOR USER INPUT
-## I NEED A SORT FUNCTION THAT WILL TAKE THE USER INPUT AND CHECK IF ITS IN THE LIST
-## ANOTER BUTTON NEEDS TO USE THAT NEW SORT FUNCTION
-## I NEED A COLOR OBJECT TO SHOW WHETHER IF THE NUMBER THE USER ENTERED IS IN THE LIST 
-## A SEPEARTE COLOR OBJECT IF IT IS WRONG
 
 
 
